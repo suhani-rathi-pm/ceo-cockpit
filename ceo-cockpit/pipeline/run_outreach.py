@@ -4,7 +4,7 @@ Scope of "top-scoring leads" (per user decision): companies that are BOTH
 in the Prioritized/Action Items table (touched this week) AND classified
 near-term pipeline. Everyone else gets no draft.
 
-Requires ANTHROPIC_API_KEY, either exported in your shell or in a
+Requires GEMINI_API_KEY, either exported in your shell or in a
 gitignored .env file in the ceo-cockpit directory (see .env.example).
 
 Run from the ceo-cockpit directory with the venv active:
@@ -15,9 +15,9 @@ import os
 import sys
 from pathlib import Path
 
-import anthropic
 import pandas as pd
 from dotenv import load_dotenv
+from google import genai
 
 from pipeline.build import build
 from pipeline.outreach import draft_all
@@ -27,9 +27,9 @@ OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 
 def main():
     load_dotenv()
-    if not os.getenv("ANTHROPIC_API_KEY"):
+    if not os.getenv("GEMINI_API_KEY"):
         sys.exit(
-            "ANTHROPIC_API_KEY is not set. Export it in your shell, or put it in a "
+            "GEMINI_API_KEY is not set. Export it in your shell, or put it in a "
             ".env file in the ceo-cockpit directory (see .env.example)."
         )
 
@@ -46,7 +46,7 @@ def main():
 
     print(f"Drafting outreach for {len(targets)} companies: {', '.join(targets)}\n")
 
-    client = anthropic.Anthropic()
+    client = genai.Client()
     drafts = draft_all(client, targets, scored)
 
     sections = [f"Run date: {today.date()}", f"Drafted for {len(targets)} companies", ""]

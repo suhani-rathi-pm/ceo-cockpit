@@ -1,0 +1,41 @@
+Run date: 2026-07-28
+Drafted for 5 companies
+
+================================================================================
+Northwind Financial Group  |  final_score=431.5  |  icp_fit=High  |  last_touchpoint=2026-07-23
+
+Subject: Northwind partnership / final proposal
+
+Our team is finalizing our revised pricing package ahead of your August 2nd deadline. We took the feedback on our rate card seriously and restructured the terms to reflect what we discussed last week. Before your executive committee meets on the 14th, let's take ten minutes to connect directly so you have everything you need from us. Send me a couple of times that work for you this week or call my cell directly.
+
+================================================================================
+Brightline Retail Co  |  final_score=430.0  |  icp_fit=High  |  last_touchpoint=2026-07-23
+
+Subject: Brightline / Technical deep dive
+
+Good connecting with you on the 23rd regarding our offshore model. Since you're evaluating options early, getting our technical teams together is the best next step to map out what this would look like for Brightline. Let's get that technical deep dive set up for early August. Who on your team should coordinate with my office on scheduling?
+
+================================================================================
+Ardent Manufacturing  |  final_score=307.2  |  icp_fit=High  |  last_touchpoint=2026-07-23
+
+Subject: Ardent / [Company] - references and scope workshop
+
+Reena, following up on our last conversation, I’m sending over three references from industrial manufacturing executives who have executed similar programs with us. Our engineering team is ready to run the scope workshop with your architects. Given your timeline to select a partner before end of quarter, let's get that workshop on the calendar for early next week. Let me know a few times that work for your team or who we should coordinate with directly.
+
+================================================================================
+Kestrel Pharma  |  final_score=92.2  |  icp_fit=Medium  |  last_touchpoint=2026-07-23
+
+Subject: Kestrel / Delivery model
+
+Andre,
+
+Following up on our call last week. As agreed, I've attached our delivery model two-pager outlining how our offshore structure operates. 
+
+Once you've reviewed it, let's get 15 minutes on the calendar to discuss how this maps against your upcoming program needs. Send over a few times that work for you next week.
+
+================================================================================
+Lyric Media Networks  |  final_score=74.4  |  icp_fit=Medium  |  last_touchpoint=2026-07-24
+
+Subject: Technical deep dive / Lyric Media
+
+Our team sent over the media case study following your call last week. Unifying setups across fragmented systems is where we deliver the most value. Let's get the technical deep dive on the calendar for this week to dive into your architecture—send over a few times that work for you.

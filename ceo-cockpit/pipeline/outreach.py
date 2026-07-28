@@ -5,10 +5,11 @@ gets a draft. This module only decides WHAT to say, and only for the
 company_names it's handed -- it doesn't re-derive scope itself.
 """
 
-import anthropic
 import pandas as pd
+from google import genai
+from google.genai import types
 
-MODEL = "claude-sonnet-5"
+MODEL = "gemini-flash-latest"
 
 SYSTEM_PROMPT = """You are ghostwriting a short outreach email on behalf of a busy CEO \
 reaching out personally to a business contact about an active deal.
@@ -16,9 +17,13 @@ reaching out personally to a business contact about an active deal.
 Voice rules:
 - Direct. No pleasantries -- never "I hope this finds you well", "hope you're doing great", \
 or similar throat-clearing.
+- No softening hedges. Banned phrases: "I wanted to make sure", "I'd be glad to", "I'd like to", \
+"I was hoping", "just following up", "just wanted to check in", "no rush", "when you get a chance". \
+State things directly instead: not "I'd like to get on a call" but "let's get on a call" or "call me".
 - No fluff, no over-explaining, no corporate boilerplate.
 - Short: 3-5 sentences in the body, max.
 - Reads like someone who typed it themselves in two minutes between meetings, not a template.
+  Plain statements and direct asks, not requests wrapped in politeness.
 - Reference the specific context given -- don't invent facts not in the context.
 - The "CRM notes" given are a sales rep's subjective impressions, not confirmed facts --
   you can use them to calibrate tone (e.g. how warm/skeptical to be) but don't quote them
@@ -73,18 +78,24 @@ def _format_user_message(context: dict) -> str:
     return "\n".join(lines)
 
 
-def draft_outreach(client: anthropic.Anthropic, context: dict, model: str = MODEL) -> str:
-    response = client.messages.create(
+def draft_outreach(client: genai.Client, context: dict, model: str = MODEL) -> str:
+    response = client.models.generate_content(
         model=model,
-        max_tokens=300,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": _format_user_message(context)}],
+        contents=_format_user_message(context),
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            # this model can't fully disable its internal reasoning step,
+            # and that reasoning counts against max_output_tokens -- budget
+            # generously so the actual draft doesn't get truncated
+            max_output_tokens=2048,
+            thinking_config=types.ThinkingConfig(thinking_budget=256),
+        ),
     )
-    return response.content[0].text.strip()
+    return response.text.strip()
 
 
 def draft_all(
-    client: anthropic.Anthropic, company_names: list[str], scored_touchpoints: pd.DataFrame
+    client: genai.Client, company_names: list[str], scored_touchpoints: pd.DataFrame
 ) -> dict[str, str]:
     drafts = {}
     for company_name in company_names:
