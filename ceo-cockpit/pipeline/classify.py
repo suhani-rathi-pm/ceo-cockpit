@@ -13,10 +13,11 @@ Known-open item, flagged to the user rather than guessed at:
 "most recent touchpoint within the trailing 7 days of `today`" -- an
 assumption, not something the user specified precisely.
 
-Companies with missing ICP data (icp_fit not High/Medium/Low) are ranked
-on raw_score alone -- no multiplier applied, since there's nothing to
-discount or reward. This is not the same as treating them as "High" fit;
-it just means that factor is excluded from their ranking.
+Companies with missing ICP data (icp_fit not High/Medium/Low) are pulled
+out into their own "needs ICP review" bucket entirely -- not ranked or
+classified alongside everyone else, since their score isn't comparable
+until that gap is filled. They're re-evaluated against the same top-N
+cutoff once they have real ICP data.
 """
 
 from dataclasses import dataclass
@@ -24,23 +25,23 @@ from dataclasses import dataclass
 import pandas as pd
 
 ICP_MULTIPLIERS = {"High": 1.0, "Medium": 0.8, "Low": 0.6}
-DEFAULT_ICP_MULTIPLIER = 1.0  # missing ICP data: no multiplier applied, rank on raw_score alone
 
 INACTIVE_AFTER_DAYS = 60
 THIS_WEEK_WINDOW_DAYS = 7
 
-# near-term pipeline vs. keep-in-touch: top/bottom 50% of final_score among
-# active (non-excluded) companies. A placeholder split -- user plans to
-# revisit as a different percentile once more runs are seen.
-PIPELINE_PERCENTILE = 0.5
+# near-term pipeline vs. keep-in-touch: locked in after reviewing the score
+# distribution -- rank 6 is the biggest natural gap in the data (144pts
+# between #6 and #7), a much cleaner break than the 50/50 median split.
+NEAR_TERM_PIPELINE_TOP_N = 6
 
 
 @dataclass
 class ClassificationResult:
     prioritized: pd.DataFrame
     active_accounts: pd.DataFrame
+    needs_icp_review: pd.DataFrame  # missing ICP data -- excluded from ranking/classification
     excluded: pd.DataFrame
-    company_rollup: pd.DataFrame  # every non-excluded company, for distribution stats
+    company_rollup: pd.DataFrame  # every ranked (non-excluded, ICP-scored) company
 
 
 def rollup_companies(scored_touchpoints: pd.DataFrame, today: pd.Timestamp) -> pd.DataFrame:
@@ -55,9 +56,7 @@ def rollup_companies(scored_touchpoints: pd.DataFrame, today: pd.Timestamp) -> p
         .reset_index()
     )
 
-    grouped["icp_multiplier"] = grouped["icp_fit"].map(ICP_MULTIPLIERS).fillna(
-        DEFAULT_ICP_MULTIPLIER
-    )
+    grouped["icp_multiplier"] = grouped["icp_fit"].map(ICP_MULTIPLIERS)
     grouped["final_score"] = grouped["raw_score"] * grouped["icp_multiplier"]
     grouped["days_since_last_touch"] = (today - grouped["last_touchpoint_date"]).dt.days
 
@@ -72,9 +71,13 @@ def classify(scored_touchpoints: pd.DataFrame, today: pd.Timestamp) -> Classific
     )
     active = rollup[rollup["days_since_last_touch"] <= INACTIVE_AFTER_DAYS].copy()
 
-    threshold = active["final_score"].quantile(1 - PIPELINE_PERCENTILE)
-    active["lead_classification"] = active["final_score"].apply(
-        lambda score: "near-term pipeline" if score >= threshold else "keep-in-touch"
+    has_icp_fit = active["icp_fit"].isin(ICP_MULTIPLIERS)
+    needs_icp_review = active[~has_icp_fit].sort_values("raw_score", ascending=False)
+    active = active[has_icp_fit].sort_values("final_score", ascending=False).copy()
+
+    active["rank"] = range(1, len(active) + 1)
+    active["lead_classification"] = active["rank"].apply(
+        lambda rank: "near-term pipeline" if rank <= NEAR_TERM_PIPELINE_TOP_N else "keep-in-touch"
     )
 
     is_this_week = active["days_since_last_touch"] <= THIS_WEEK_WINDOW_DAYS
@@ -84,6 +87,7 @@ def classify(scored_touchpoints: pd.DataFrame, today: pd.Timestamp) -> Classific
     return ClassificationResult(
         prioritized=prioritized,
         active_accounts=active_accounts,
+        needs_icp_review=needs_icp_review,
         excluded=excluded,
         company_rollup=active,
     )
