@@ -1,0 +1,46 @@
+Run date: 2026-07-28
+lead_classification split: top 50% by final_score >= 66.2 = near-term pipeline (10), rest = keep-in-touch (10)
+
+PRIORITIZED / ACTION ITEMS (13 companies)
+  most recent touchpoint within last 7 days
+             company_name lead_classification  final_score  raw_score icp_fit  icp_multiplier last_touchpoint_date  days_since_last_touch  touchpoint_count
+Northwind Financial Group  near-term pipeline        431.5      431.5    High             1.0           2026-07-23                      5                10
+     Brightline Retail Co  near-term pipeline        430.0      430.0    High             1.0           2026-07-23                      5                 9
+     Ardent Manufacturing  near-term pipeline        307.2      307.2    High             1.0           2026-07-23                      5                 9
+           Kestrel Pharma  near-term pipeline         92.2      115.2  Medium             0.8           2026-07-23                      5                 6
+     Lyric Media Networks  near-term pipeline         74.4       93.0  Medium             0.8           2026-07-24                      4                 6
+        Meridian Payments       keep-in-touch         59.5       74.4  Medium             0.8           2026-07-23                      5                 6
+          Aurora Bioworks       keep-in-touch         21.1       35.2     Low             0.6           2026-07-26                      2                 5
+      Sable Grocery Group       keep-in-touch         20.2       25.2  Medium             0.8           2026-07-24                      4                 6
+  Marlowe & Sons Hardware       keep-in-touch         19.6       32.7     Low             0.6           2026-07-24                      4                 5
+       Tallgrass Agritech       keep-in-touch         12.6       21.0     Low             0.6           2026-07-25                      3                 5
+       Copperfield Realty       keep-in-touch         12.6       21.0     Low             0.6           2026-07-22                      6                 5
+ Pinnacle Dental Partners       keep-in-touch         11.9       19.8     Low             0.6           2026-07-23                      5                 5
+Beacon Hill Academy Group       keep-in-touch          9.6       16.0     Low             0.6           2026-07-22                      6                 5
+
+ACTIVE ACCOUNTS (7 companies)
+             company_name lead_classification  final_score  raw_score icp_fit  icp_multiplier last_touchpoint_date  days_since_last_touch  touchpoint_count
+ Solstice Energy Partners  near-term pipeline        495.0      495.0    High             1.0           2026-06-17                     41                10
+Verity Insurance Holdings  near-term pipeline        447.2      447.2    High             1.0           2026-06-15                     43                11
+       Cascadia Logistics  near-term pipeline        419.6      419.6    High             1.0           2026-07-18                     10                 9
+  Vantage Freight Systems  near-term pipeline        163.2      163.2 Unknown             1.0           2026-07-11                     17                 5
+   Halcyon Health Systems  near-term pipeline         66.4       66.4    High             1.0           2026-07-18                     10                10
+  Junction Point Software       keep-in-touch         65.9       82.4  Medium             0.8           2026-06-23                     35                 6
+Thornton Capital Advisors       keep-in-touch         22.1       27.6  Medium             0.8           2026-07-17                     11                 7
+
+EXCLUDED (0 companies, last touchpoint 60+ days ago; 'CRM marked inactive' rule not applied -- no such field exists in the source data)
+  (none)
+
+FINAL_SCORE DISTRIBUTION (prioritized + active accounts, n=20)
+count     20.0
+mean     159.1
+std      182.9
+min        9.6
+10%       12.5
+25%       20.0
+30%       20.8
+50%       66.2
+70%      206.4
+75%      335.3
+90%      433.1
+max      495.0
