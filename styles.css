@@ -1,0 +1,200 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Cockpit design system — matches the agreed HTML reference.
+ *
+ * Palette is intentionally flat hex (no oklch drift from the signed-off
+ * design). Radius is 6px everywhere; no pills on cards, no heavy shadows.
+ *
+ * Typography by role:
+ *   Archivo      -> headings, page titles, big numbers   (font-display)
+ *   Public Sans  -> body, labels, buttons                (font-sans)
+ *   IBM Plex Mono-> eyebrows, table heads, dates, figures(font-mono)
+ *   Newsreader   -> AI-generated prose ONLY              (font-serif)
+ */
+
+@theme inline {
+  --font-sans: "Public Sans", system-ui, sans-serif;
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif: "Newsreader", Georgia, serif;
+
+  --radius-sm: 4px;
+  --radius-md: 5px;
+  --radius-lg: var(--radius);
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
+  --radius-3xl: 12px;
+  --radius-4xl: 14px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  /* Shell / dark chrome */
+  --color-shell: var(--shell);
+  --color-shell-deep: var(--shell-deep);
+  --color-shell-line: var(--shell-line);
+  --color-shell-foreground: var(--shell-foreground);
+  --color-shell-muted: var(--shell-muted);
+
+  /* Ink scale */
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+
+  /* Brand — oxblood */
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-wash: var(--brand-wash);
+
+  --color-sidebar: var(--shell);
+  --color-sidebar-foreground: var(--shell-foreground);
+  --color-sidebar-primary: var(--brand);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #1e2c3a;
+  --color-sidebar-accent-foreground: #eaf0f2;
+  --color-sidebar-border: var(--shell-line);
+  --color-sidebar-ring: var(--brand);
+
+  /* Company state colours — consistent across every surface in the app. */
+  --color-state-pipeline: var(--state-pipeline);
+  --color-state-pipeline-foreground: var(--state-pipeline-foreground);
+  --color-state-opportunity: var(--state-opportunity);
+  --color-state-opportunity-foreground: var(--state-opportunity-foreground);
+  --color-state-keep: var(--state-keep);
+  --color-state-keep-foreground: var(--state-keep-foreground);
+  --color-state-lost: var(--state-lost);
+  --color-state-lost-foreground: var(--state-lost-foreground);
+  --color-state-alert: var(--state-alert);
+  --color-state-alert-foreground: var(--state-alert-foreground);
+  --color-state-alert-wash: var(--state-alert-wash);
+  --color-state-alert-border: var(--state-alert-border);
+
+  --color-chart-1: #2f5d6e;
+  --color-chart-2: #5c8aa0;
+  --color-chart-3: #9dbcc9;
+  --color-chart-4: var(--brand);
+  --color-chart-5: #96650b;
+}
+
+:root {
+  --radius: 6px;
+
+  --shell: #16202c;
+  --shell-deep: #0e1720;
+  --shell-line: #2a3846;
+  --shell-foreground: #c8d3da;
+  --shell-muted: #7d909c;
+
+  --background: #f1f3f2;
+  --foreground: #131a22;
+  --ink: #131a22;
+  --ink-2: #3d4c58;
+  --card: #ffffff;
+  --card-foreground: #131a22;
+  --popover: #ffffff;
+  --popover-foreground: #131a22;
+
+  --primary: #7a2648;
+  --primary-foreground: #ffffff;
+  --brand: #7a2648;
+  --brand-ink: #5c1b36;
+  --brand-wash: #f7edf1;
+
+  --secondary: #eaeeee;
+  --secondary-foreground: #3d4c58;
+  --muted: #eaeeee;
+  --muted-foreground: #68787f;
+  --accent: #eaeeee;
+  --accent-foreground: #131a22;
+
+  --destructive: #a3392c;
+  --destructive-foreground: #ffffff;
+
+  --border: #dde3e4;
+  --border-soft: #eaeeee;
+  --input: #dde3e4;
+  --ring: #7a2648;
+
+  --state-pipeline: #e4f1ec;
+  --state-pipeline-foreground: #0f6e4f;
+  --state-opportunity: #e9e8f6;
+  --state-opportunity-foreground: #3b37a0;
+  --state-keep: #f8f0de;
+  --state-keep-foreground: #96650b;
+  --state-lost: #edefef;
+  --state-lost-foreground: #68787f;
+  --state-alert: #fbecea;
+  --state-alert-foreground: #a3392c;
+  --state-alert-wash: #fdf6f4;
+  --state-alert-border: #f0d8d3;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+}
+
+/* 10px uppercase mono eyebrow label — used above every card and stat. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Tabular figures for any computed number. */
+@utility figure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Machine-written prose. Serif is reserved for AI output only. */
+@utility ai-prose {
+  font-family: var(--font-serif);
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: var(--ink);
+}
